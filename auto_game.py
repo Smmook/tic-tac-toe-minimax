@@ -2,6 +2,7 @@ import engine as ttt
 import players as ai
 from progress import print_progress_bar
 import sys
+import time
 
 def play(player1, player2):
     board = ttt.new_board()
@@ -37,5 +38,8 @@ def auto_play(player1, player2, games):
 if __name__ == "__main__":
     if sys.argv.__len__() < 4:
         raise Exception("Uso: python game.py engine1 engine2 games")
+    start = time.time()
     auto_play(sys.argv[1], sys.argv[2], int(sys.argv[3]))
+    seconds = time.time() - start
+    print("Tiempo total: {:.1f}s".format(seconds))
     # auto_play("win_move", "minimax", 1000)
