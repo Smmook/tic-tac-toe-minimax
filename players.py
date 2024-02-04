@@ -27,45 +27,34 @@ def get_move(board: list[list[str]], player: str, engine: str) -> tuple[int,int]
     }
     return players[engine](board, player)
 
-cache = {}
 def minimax_ai(board: list[list[str]], player: str) -> tuple[int,int]:
+    max_eval = -9999
     best_move = None
-    max_score = -9999
-    
     for move in ttt.get_legal_moves(board):
         state = ttt.make_move(board, move, player)
-        score = minimax_score(state, ttt.get_opponent(player), False)
-        if score > max_score:
+        eval = minimax(state, ttt.get_opponent(player), False)
+        if eval > max_eval:
+            max_eval = eval
             best_move = move
-            max_score = score
     return best_move
 
-def minimax_score(board: list[list[str]], player: str, maximizing: bool) -> int:
-    cache_key = str(board)
-    if cache_key in cache:
-        return cache[cache_key]
+def minimax(board: list[list[str]], player: str, maximizing: bool) -> int:
     
-    if ttt.is_win(board, player):
-        eval = 10 if maximizing else -10
-        cache[cache_key] = eval
-        return eval
     if ttt.is_draw(board):
-        cache[cache_key] = 0
         return 0
+    if ttt.is_win(board, player):
+        return 10 if maximizing else -10
     
-    if maximizing:
-        max_eval = -9999
-        for move in ttt.get_legal_moves(board):
-            state = ttt.make_move(board, move, player)
-            eval = minimax_score(state, ttt.get_opponent(player), False)
-            max_eval = max(max_eval, eval)
-        cache[cache_key] = max_eval
-        return max_eval
-    else:
-        min_eval = 9999
-        for move in ttt.get_legal_moves(board):
-            state = ttt.make_move(board, move, player)
-            eval = minimax_score(state, ttt.get_opponent(player), True)
-            min_eval = min(min_eval, eval)
-        cache[cache_key] = min_eval
-        return min_eval
+    max_eval = -9999
+    min_eval = 9999
+    for move in ttt.get_legal_moves(board):
+        state = ttt.make_move(board, move, player)
+        eval = minimax(state, ttt.get_opponent(player), not maximizing)
+        if eval > max_eval:
+            max_eval = eval
+        if eval < min_eval:
+            min_eval = eval
+        
+    result = max_eval if maximizing else min_eval
+    return result
+    

@@ -35,7 +35,7 @@ def auto_play(player1, player2, games):
     print_stats(wins, player1, player2, games)
     
 if __name__ == "__main__":
-    # if sys.argv.__len__() < 4:
-    #     raise Exception("Uso: python game.py engine1 engine2 games")
-    # auto_play(sys.argv[1], sys.argv[2], int(sys.argv[3]))
-    auto_play("win_move", "minimax", 1000)
+    if sys.argv.__len__() < 4:
+        raise Exception("Uso: python game.py engine1 engine2 games")
+    auto_play(sys.argv[1], sys.argv[2], int(sys.argv[3]))
+    # auto_play("win_move", "minimax", 1000)
