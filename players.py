@@ -38,7 +38,11 @@ def minimax_ai(board: list[list[str]], player: str) -> tuple[int,int]:
             best_move = move
     return best_move
 
+cache = {}
 def minimax(board: list[list[str]], player: str, maximizing: bool, alpha: int, beta: int) -> int:
+    state_str = str(board) + str(player) + str(maximizing) + str(alpha) + str(beta)
+    if state_str in cache:
+        return cache[state_str]
     
     if ttt.is_draw(board):
         return 0
@@ -65,5 +69,6 @@ def minimax(board: list[list[str]], player: str, maximizing: bool, alpha: int, b
                 break
         
     result = max_eval if maximizing else min_eval
+    cache[state_str] = result
     return result
     
