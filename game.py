@@ -26,7 +26,6 @@ def game(player1: str, player2: str) -> None:
     print(f"Player {winner} as {engine} wins!")
     
 if __name__ == "__main__":
-    # if sys.argv.__len__() < 3:
-    #     raise Exception("Uso: python game.py engine1 engine2")
-    # game(sys.argv[1], sys.argv[2])
-    game("human", "minimax")
+    if sys.argv.__len__() < 3:
+        raise Exception("Uso: python game.py engine1 engine2")
+    game(sys.argv[1], sys.argv[2])
